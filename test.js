@@ -39,12 +39,14 @@ function groupDuplicatedLetter(words) {
 function reverseParenthesesWord(word) {
   const letters = [...word];
   const sampleWord = [];
+  const sampleWordAfter = [];
   const reverseWord = [];
   const skipStack = [];
 
   for (let i = 0; i < letters.length; i++) {
     if (letters[i] === "(") {
       skipStack.push(true);
+      reverseWord.push([]);
       continue;
     }
 
@@ -53,14 +55,25 @@ function reverseParenthesesWord(word) {
       continue;
     }
 
-    if (!skipStack.length) {
+    if (!skipStack.length && !reverseWord.length) {
       sampleWord.push(letters[i]);
+    } else if (!skipStack.length && reverseWord.length) {
+      sampleWordAfter.push(letters[i]);
     } else {
-      reverseWord.push(letters[i]);
+      reverseWord[skipStack.length - 1].push(letters[i]);
     }
   }
 
-  console.log(sampleWord.concat(reverseWord.reverse()).join(""));
+  console.log(
+    sampleWord
+      .concat(
+        reverseWord.reduce((p, c) => {
+          return p.concat(c.reverse());
+        }, []),
+        sampleWordAfter
+      )
+      .join("")
+  );
 }
 
 groupDuplicatedLetter(sampleWords);
