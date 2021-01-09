@@ -45,14 +45,22 @@ function reverseParenthesesWord(word) {
   for (let i = 0; i < letters.length; i++) {
     if (letters[i] === "(") {
       skipStack.push(true);
+      continue;
+    }
+
+    if (letters[i] === ")") {
+      skipStack.shift();
+      continue;
     }
 
     if (!skipStack.length) {
       sampleWord.push(letters[i]);
+    } else {
+      reverseWord.push(letters[i]);
     }
   }
 
-  console.log(sampleWord, reverseWord);
+  console.log(sampleWord.concat(reverseWord.reverse()).join(""));
 }
 
 groupDuplicatedLetter(sampleWords);
